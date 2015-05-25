@@ -1,8 +1,12 @@
 'use strict';
 
-angular.module('poseidon')
+angular.module('findify')
 .factory('User', function($rootScope, $http, nodeUrl){
   function User(){
+  }
+  
+  User.getMe = function(){
+    return $http.get('https://api.spotify.com/v1/me')
   }
 
   User.initialize = function(){

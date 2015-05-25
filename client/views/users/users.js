@@ -1,27 +1,28 @@
 'use strict';
 
-angular.module('poseidon')
-.controller('UsersCtrl', function($scope, $state, $window, User){
+angular.module('findify')
+.controller('UsersCtrl', function($scope, $state, $window, User, $auth, $rootScope, $http){
   $scope.name = $state.current.name;
 
   $scope.oauth = function(provider){
-    User.oauth(provider);
-  };
+    $auth.authenticate('spotify')
+    .then(function(response){
+      $http.defaults.headers.common.Authorization = 'Bearer ' + $auth.getToken();
+      User.getMe()
 
-  $scope.submit = function(user){
-    if($scope.name === 'register'){
-      User.register(user)
-      .then(function(){
-        $state.go('login');
-      })
-      .catch(function(){
-        $window.swal({title: 'Registration Error', text: 'There was a problem with your registration. Please try again.', type: 'error'});
+      .then(function(res){
+        $rootScope.activeUser = res.data;
+        $rootScope.displayName = res.data.display_name;
+        console.log(res);
+
+        User.initialize(res)
+        .then(function(resp){
+          console.log(resp);
+          $state.go('profile');
+        });
       });
-    }else{
-      User.login(user)
-      .catch(function(){
-        $window.swal({title: 'Login Error', text: 'There was a problem with your login. Please try again.', type: 'error'});
-      });
-    }
+    }).catch(function(){
+      $window.swal({title: 'Login Error', text: 'There was a problem with your login. Please try again.', type: 'error'});
+    });
   };
 });
