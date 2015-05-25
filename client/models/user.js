@@ -6,27 +6,14 @@ angular.module('findify')
   }
   
   User.getMe = function(){
-    return $http.get('https://api.spotify.com/v1/me')
-  }
+    return $http.get('https://api.spotify.com/v1/me');
+  };
+  User.getFavs = function(){
+    return $http.put('https://api.spotify.com/v1/me/following?type=artist');
+  };
 
   User.initialize = function(){
     return $http.post(nodeUrl + '/users');
-  };
-
-  User.oauth = function(provider){
-    return $rootScope.afAuth.$authWithOAuthPopup(provider);
-  };
-
-  User.register = function(user){
-    return $rootScope.afAuth.$createUser(user);
-  };
-
-  User.login = function(user){
-    return $rootScope.afAuth.$authWithPassword(user);
-  };
-
-  User.logout = function(){
-    return $rootScope.afAuth.$unauth();
   };
 
   return User;

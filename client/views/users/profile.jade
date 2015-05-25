@@ -1,0 +1,11 @@
+h3 profile page
+.container
+  .col-xs-12.col-md-6
+    img.pro(ng-if='activeUser.images' ng-src='{{activeUser.images[0].url}}')
+    img.pro(ng-if='!activeUser.images' ng-src='http://lorempixel.com/output/cats-q-g-200-200-3.jpg')
+  .col-xs-12.col-md-6
+    h4 {{activeUser.display_name}}
+    h5 {{activeUser.id}}
+.container
+  .col-xs-12.col-md-6.col-lg-4(ng-repeat='artist in artists track by $index')
+    

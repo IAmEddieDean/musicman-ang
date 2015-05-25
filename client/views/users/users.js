@@ -13,7 +13,6 @@ angular.module('findify')
       .then(function(res){
         $rootScope.activeUser = res.data;
         $rootScope.displayName = res.data.display_name;
-        console.log(res);
 
         User.initialize(res)
         .then(function(resp){
